@@ -9,5 +9,5 @@ target_sources(${EXE_NAME}
 
 target_include_directories(${EXE_NAME}
     PRIVATE
-        tomlc99
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )

@@ -5,9 +5,9 @@
 #include <string.h>
 #include <unistd.h>
 
-#include <toml.h>
+#include <tomlc99/toml.h>
 
-#include "commands.h"
+#include <Commands/Commands.h>
 
 toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
     

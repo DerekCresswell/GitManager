@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "profile.h"
+#include "Profile.h"
 
 Profile* LoadProfiles(const char* pathToProfiles) {
 

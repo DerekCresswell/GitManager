@@ -2,7 +2,7 @@
 #ifndef PROFILE_H
 #define PROFILE_H
 
-#include <toml.h>
+#include <tomlc99/toml.h>
 
 struct Profile {
     char* profileName;
