@@ -1,44 +1,36 @@
 
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "Logger.h"
 
 static int IS_VERBOSE = 0;
 static int IS_COLOR = 1;
 
-const char* GetANSIColor(LogLevel lvl) {
+void PrintLevelTag(LogLevel lvl) {
 
     static const char* const ANSI_SUCCESS = "\033[0;32m";
     static const char* const ANSI_VERBOSE = "\033[0;36m";
     static const char* const ANSI_ERROR = "\033[0;31m";
-
-    if(!IS_COLOR) {
-        return "";
-    }
+    static const char* const ANSI_RESET = "\033[0m";
 
     switch(lvl) {
         case Success:
-            return ANSI_SUCCESS;
+            printf("[%s%s", ANSI_SUCCESS, "Success");
+            break;
         case Normal:
-            return "";
+            return;
         case Verbose:
-            return ANSI_VERBOSE;
+            printf("[%s%s", ANSI_VERBOSE, "Verbose");
+            break;
         case Error:
-            return ANSI_ERROR;
+            printf("[%s%s", ANSI_ERROR, "Error");
+            break;
     };
 
-}
-
-const char* GetANSIEnd(LogLevel lvl) {
-
-    static const char* const ANSI_RESET = "\033[0m";
-
-    if(!IS_COLOR || lvl == Normal) {
-        return "";
-    }
-
-    return ANSI_RESET;
+    printf("%s] ", ANSI_RESET);
 
 }
 
@@ -48,14 +40,18 @@ void Log(LogLevel lvl, const char* message, ...) {
         return;
     }
 
-    printf("%s", GetANSIColor(lvl));
+    PrintLevelTag(lvl);
 
     va_list vaList;
     va_start(vaList, message);
-    printf(message, vaList);
+    vprintf(message, vaList);
     va_end(vaList);
 
-    printf("%s\n", GetANSIEnd(lvl));
+    printf("\n");
+
+    if(lvl == Error) {
+        exit(1);
+    }
 
 }
 
