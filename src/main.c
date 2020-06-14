@@ -8,12 +8,13 @@
 #include <tomlc99/toml.h>
 
 #include <Commands/Commands.h>
+#include <Logger.h>
 
 toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
     
     FILE* filePtr = fopen(pathToConfig, "r");
     if(!filePtr) {
-        printf("Error opening figuration file : %s\n", pathToConfig);
+        Log(Error, "Error opening configuration file : '%s'.", pathToConfig);
         return NULL;
     }
 
@@ -24,7 +25,7 @@ toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
     fclose(filePtr);
 
     if(!configurationFile) {
-        printf("Error parsing configuration file\n");
+        Log(Error, "Error parsing configuration file.");
         return NULL;
     }
 
@@ -39,33 +40,37 @@ toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
  */
 int main(int argc, char* argv[]) {
 
+    // Temp
+    ArgContext a;
+    a.color = 1;
+    a.verbose = 1;
+    InitLog(&a);
+
     if(argc < 2) {
 
-        printf("Error : No arguments given.\n");
+        Log(Error, "No arguments given.");
         return 1;
+
     }
 
     char cwdPath[PATH_MAX];
     if (getcwd(cwdPath, sizeof(cwdPath)) == NULL) {
-       printf("Could not get the current working directory.\n");
+       Log(Error, "Could not get the current working directory.");
        return 1;
     }
 
     // Temp, will locate later
-    const char* configPath = "../test.toml";
-    toml_table_t* configFile = LoadConfigurationFile(configPath);
-    if(!configFile) {
-        return 1;
-    }
+    const char* profilePath = "../test.toml";
+    toml_table_t* profileFile = LoadConfigurationFile(profilePath);
 
     if(strcmp(argv[1], "list") == 0) {
-        ListCommand(configFile);
+        ListCommand(profileFile);
     } else if(strcmp(argv[1], "add") == 0) {
 
     } else if(strcmp(argv[1], "set") == 0) {
-        SetCommand(configFile, argv[2], cwdPath);
+        SetCommand(profileFile, argv[2], cwdPath);
     } else {
-        printf("\"%s\" is not a valid command.\n", argv[1]);
+        Log(Error, "\"%s\" is not a valid command.", argv[1]);
         return 1;
     }
 

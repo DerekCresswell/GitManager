@@ -22,7 +22,6 @@ int LoadProfileNames(toml_table_t* table, const char* buffer[]) {
     toml_array_t* profileNames = toml_array_in(table, "profileNames");
     int nElms = toml_array_nelem(profileNames);
 
-
     for(int i = 0; i < nElms; i++) {
 
         const char* nameAct = toml_raw_at(profileNames, i);

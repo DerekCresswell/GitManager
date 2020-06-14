@@ -2,6 +2,8 @@
 #include <string.h>
 
 #include <Profile/Profile.h>
+#include <Logger.h>
+
 #include "List.h"
 
 int ListCommand(toml_table_t* configFile) {
@@ -11,11 +13,11 @@ int ListCommand(toml_table_t* configFile) {
     int numProfiles = LoadProfileNames(configFile, nameBuffer);
 
     if(numProfiles == 0) {
-        printf("There are no available profiles.\n");
+        Log(Normal, "There are no available profiles.");
         return 0;
     }
 
-    printf("Here are the available profiles :\n");
+    Log(Normal, "Here are the available profiles :");
 
     for(int i = 0; i < numProfiles; i++) {
 
@@ -26,22 +28,20 @@ int ListCommand(toml_table_t* configFile) {
         namePtr++;
         namePtr[strlen(namePtr) - 1] = 0;
 
-        printf("  %d : %s", i + 1, namePtr);
+        Log(Normal, "  %d : %s", i + 1, namePtr);
 
         // Description
         toml_table_t* profileTable = toml_table_in(configFile, namePtr);
         if(profileTable == 0) {
-            printf("\n");
             continue;
         }
 
         const char* description = toml_raw_in(profileTable, "description");
         if(description == 0) {
-            printf("\n");
             continue;
         }
 
-        printf(", %s\n", description);
+        Log(Normal, "      %s", description);
 
     }
 
