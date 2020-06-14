@@ -15,6 +15,10 @@ ArgContext* ParseArguments(int argc, char* argv[]) {
 
     ArgContext* argContext = malloc(sizeof *argContext);
 
+    /* Set defaults */
+    argContext->verbose = 0;
+    argContext->color = 1;
+
     int arg;
     while((arg = getopt(argc, argv, "vc")) != -1) {
 
