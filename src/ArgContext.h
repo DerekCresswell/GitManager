@@ -4,12 +4,13 @@
 
 struct ArgContext {
 
+    /* Options */
     int verbose;
     int color;
 
 };
 typedef struct ArgContext ArgContext;
 
-// Later, add argument parsing here.
+ArgContext* ParseArguments(int argc, char* argv[]);
 
 #endif

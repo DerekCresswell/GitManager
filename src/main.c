@@ -7,6 +7,7 @@
 
 #include <tomlc99/toml.h>
 
+#include <ArgContext.h>
 #include <Commands/Commands.h>
 #include <Logger.h>
 
@@ -35,23 +36,11 @@ toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
 
 /*
  * Usage : gitmanager <list|add|set> (options)
- * 
- * Look into getopt
  */
 int main(int argc, char* argv[]) {
 
-    // Temp
-    ArgContext a;
-    a.color = 1;
-    a.verbose = 1;
-    InitLog(&a);
-
-    if(argc < 2) {
-
-        Log(Error, "No arguments given.");
-        return 1;
-
-    }
+    ArgContext* aContext = ParseArguments(argc, argv);
+    InitLog(aContext);
 
     char cwdPath[PATH_MAX];
     if (getcwd(cwdPath, sizeof(cwdPath)) == NULL) {
@@ -63,14 +52,14 @@ int main(int argc, char* argv[]) {
     const char* profilePath = "../test.toml";
     toml_table_t* profileFile = LoadConfigurationFile(profilePath);
 
-    if(strcmp(argv[1], "list") == 0) {
+    if(strcmp(argv[argc - 1], "list") == 0) {
         ListCommand(profileFile);
-    } else if(strcmp(argv[1], "add") == 0) {
+    } else if(strcmp(argv[argc - 1], "add") == 0) {
 
-    } else if(strcmp(argv[1], "set") == 0) {
+    } else if(strcmp(argv[argc - 1], "set") == 0) {
         SetCommand(profileFile, argv[2], cwdPath);
     } else {
-        Log(Error, "\"%s\" is not a valid command.", argv[1]);
+        Log(Error, "\"%s\" is not a valid command.", argv[argc - 1]);
         return 1;
     }
 
