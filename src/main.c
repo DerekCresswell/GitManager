@@ -1,6 +1,7 @@
 
 #include <errno.h>
 #include <linux/limits.h>
+#include <pwd.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -15,8 +16,27 @@ toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
     
     FILE* filePtr = fopen(pathToConfig, "r");
     if(!filePtr) {
-        Log(Error, "Error opening configuration file : '%s'.", pathToConfig);
-        return NULL;
+        
+        Log(Verbose, "No configuration file at : '%s'.", pathToConfig);
+        Log(Verbose, "Creating new configuration file.");
+
+        filePtr = fopen(pathToConfig, "w");
+
+        if(!filePtr) {
+            Log(Error, "Could not create file at : '%s'.", pathToConfig);
+            return NULL;
+        }
+
+        fputs("# Gitmanager profile configuration.", filePtr);
+        fputs("\nprofileNames = [\n]", filePtr);
+
+        fclose(filePtr);
+        filePtr = fopen(pathToConfig, "r");
+
+    } else {
+
+        Log(Verbose, "Found configuration file at : '%s'.", pathToConfig);
+
     }
 
     char errBuff[1024];
@@ -48,8 +68,18 @@ int main(int argc, char* argv[]) {
        return 1;
     }
 
-    // Temp, will locate later
-    const char* profilePath = "../test.toml";
+#ifdef __linux__
+
+    char* userDirRoot = getpwuid(getuid())->pw_dir;
+    const char* fileName = "/.gitmanager";
+    char profilePath[strlen(userDirRoot) + strlen(fileName)];
+    profilePath[0] = '\0';
+    strcat(profilePath, strcat(userDirRoot, fileName));
+
+#else
+# error Only Linux is currently supported.
+#endif
+
     toml_table_t* profileFile = LoadConfigurationFile(profilePath);
 
     if(strcmp(argv[argc - 1], "list") == 0) {
