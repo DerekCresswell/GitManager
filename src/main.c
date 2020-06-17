@@ -59,6 +59,7 @@ toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
  */
 int main(int argc, char* argv[]) {
 
+    extern int optind;
     ArgContext* aContext = ParseArguments(argc, argv);
     InitLog(aContext);
 
@@ -82,15 +83,26 @@ int main(int argc, char* argv[]) {
 
     toml_table_t* profileFile = LoadConfigurationFile(profilePath);
 
-    if(strcmp(argv[argc - 1], "list") == 0) {
-        ListCommand(profileFile);
-    } else if(strcmp(argv[argc - 1], "add") == 0) {
+    if(strcmp(argv[optind], "list") == 0) {
 
-    } else if(strcmp(argv[argc - 1], "set") == 0) {
-        SetCommand(profileFile, argv[2], cwdPath);
+        ListCommand(profileFile);
+
+    } else if(strcmp(argv[optind], "add") == 0) {
+
+    } else if(strcmp(argv[optind], "set") == 0) {
+
+        if(argv[optind + 1] == NULL) {
+            Log(Error, "The 'set' command requires a profile to be specified.");
+            return 1;
+        }
+
+        SetCommand(profileFile, argv[optind + 1], cwdPath);
+
     } else {
-        Log(Error, "\"%s\" is not a valid command.", argv[argc - 1]);
+
+        Log(Error, "'%s' is not a valid command.", argv[optind]);
         return 1;
+
     }
 
     return 0;
