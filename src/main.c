@@ -89,6 +89,13 @@ int main(int argc, char* argv[]) {
 
     } else if(strcmp(argv[optind], "add") == 0) {
 
+        if(argv[optind + 1] == NULL) {
+            Log(Error, "The 'add' command requires a profile name to be specified.");
+            return 1;
+        }
+
+        AddCommand(profileFile, argv[optind + 1]);
+
     } else if(strcmp(argv[optind], "set") == 0) {
 
         if(argv[optind + 1] == NULL) {
