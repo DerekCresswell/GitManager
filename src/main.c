@@ -94,7 +94,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
-        AddCommand(profileFile, argv[optind + 1]);
+        AddCommand(profileFile, argv[optind + 1], profilePath);
 
     } else if(strcmp(argv[optind], "set") == 0) {
 

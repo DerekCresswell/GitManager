@@ -4,6 +4,6 @@
 
 #include <tomlc99/toml.h>
 
-int AddCommand(toml_table_t* configFile, char* profileName);
+int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToConfig);
 
 #endif

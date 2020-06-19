@@ -29,12 +29,12 @@ void ValidateProfileName(char* name) {
 
 }
 
-int AddCommand(toml_table_t* configFile, char* profileName) {
+int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToConfig) {
 
     const char* nameBuffer[32];
     int numProfiles = LoadProfileNames(configFile, nameBuffer);
 
-    char* validatedName;
+    char validatedName[strlen(profileName)];
     strcpy(validatedName, profileName);
     ValidateProfileName(validatedName);
 
@@ -44,8 +44,41 @@ int AddCommand(toml_table_t* configFile, char* profileName) {
 
     for(int i = 0; i < numProfiles; i++) {
 
-        // Check if exists already
+        if(strcmp(validatedName, nameBuffer[i]) == 0) {
+            Log(Error, "The name '%s' already exists.", validatedName);
+            return 0;
+        }
 
     }
+
+    FILE* currentFile = fopen(pathToConfig, "r");
+    if(!currentFile) {
+        Log(Error, "Could not open file '%s'.", pathToConfig);
+        return 0;
+    }
+
+    const char* tempSuffix = ".temp";
+    char newPathToConfig[strlen(pathToConfig) + strlen(tempSuffix)];
+    newPathToConfig[0] = '\0';
+    strcat(newPathToConfig, pathToConfig);
+    strcat(newPathToConfig, tempSuffix);
+
+    FILE* newFile = fopen(newPathToConfig, "w");
+    if(!newFile) {
+        Log(Error, "Could not create file '%s'.", newPathToConfig);
+        return 0;
+    }
+    Log(Verbose, "Opened temporary file at '%s'.", newPathToConfig);
+
+    char curLine[256];
+    while(fgets(curLine, sizeof(curLine), currentFile)) {
+
+        fputs(curLine, newFile);
+
+    }
+
+    fclose(currentFile);
+    fclose(newFile);
+    remove(newPathToConfig);
 
 }
