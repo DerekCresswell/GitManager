@@ -59,8 +59,7 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
 
     const char* tempSuffix = ".temp";
     char newPathToConfig[strlen(pathToConfig) + strlen(tempSuffix)];
-    newPathToConfig[0] = '\0';
-    strcat(newPathToConfig, pathToConfig);
+    strcpy(newPathToConfig, pathToConfig);
     strcat(newPathToConfig, tempSuffix);
 
     FILE* newFile = fopen(newPathToConfig, "w");
@@ -71,7 +70,37 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     Log(Verbose, "Opened temporary file at '%s'.", newPathToConfig);
 
     char curLine[256];
+    int watchForCloseTag = 0;
     while(fgets(curLine, sizeof(curLine), currentFile)) {
+
+        char modLine[strlen(curLine)];
+
+        // Trim leading and trailing whitespace.
+        int j = 0;
+        int front = 0;
+        for(int i = 0; curLine[i] != '\n'; i++) {
+            
+            if(isspace(curLine[i]) && !front) {
+                continue;
+            }
+
+            front = 1;
+            modLine[j] = curLine[i];
+            j++;
+
+        }
+        modLine[j++] = '\n';
+        modLine[j] = '\0';
+
+        if(strcmp(modLine, "profileNames = [\n") == 0) {
+            watchForCloseTag = 1;
+        }
+
+        if(watchForCloseTag && strcmp(modLine, "]\n") == 0) {
+            fputs("\t", newFile);
+            fputs(profileName, newFile);
+            fputs(",\n", newFile);
+        }
 
         fputs(curLine, newFile);
 
@@ -79,6 +108,6 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
 
     fclose(currentFile);
     fclose(newFile);
-    remove(newPathToConfig);
+    //remove(newPathToConfig);
 
 }
