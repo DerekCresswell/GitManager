@@ -69,6 +69,7 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     }
     Log(Verbose, "Opened temporary file at '%s'.", newPathToConfig);
 
+    // Copy the current file to a temporary one.
     char curLine[256];
     int watchForCloseTag = 0;
     while(fgets(curLine, sizeof(curLine), currentFile)) {
@@ -97,9 +98,9 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
         }
 
         if(watchForCloseTag && strcmp(modLine, "]\n") == 0) {
-            fputs("\t", newFile);
+            fputs("\t\"", newFile);
             fputs(profileName, newFile);
-            fputs(",\n", newFile);
+            fputs("\",\n", newFile);
         }
 
         fputs(curLine, newFile);
@@ -107,7 +108,47 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     }
 
     fclose(currentFile);
+
+    fputs("\n[", newFile);
+    fputs(profileName, newFile);
+    fputs("]\n", newFile);
+
+    {
+        Log(Normal, "Enter the user name :");
+        char userIn[64];
+        fgets(userIn, sizeof(userIn), stdin);
+        userIn[strcspn(userIn, "\n")] = 0;
+
+        fputs("userName = \"", newFile);
+        fputs(userIn, newFile);
+        fputs("\"\n", newFile);
+    }
+
+    {
+        Log(Normal, "Enter the user email :");
+        char userIn[64];
+        fgets(userIn, sizeof(userIn), stdin);
+        userIn[strcspn(userIn, "\n")] = 0;
+
+        fputs("userEmail = \"", newFile);
+        fputs(userIn, newFile);
+        fputs("\"\n", newFile);
+    }
+
     fclose(newFile);
-    //remove(newPathToConfig);
+    Log(Verbose, "Temporary file '%s' written successfully.", newPathToConfig);
+    Log(Verbose, "Copying '%s' to '%s'.", newPathToConfig, pathToConfig);
+
+    currentFile = fopen(pathToConfig, "w");
+    newFile = fopen(newPathToConfig, "r");
+    while(fgets(curLine, sizeof(curLine), newFile)) {
+        fputs(curLine, currentFile);
+    }
+
+    fclose(currentFile);
+    fclose(newFile);
+    remove(newPathToConfig);
+
+    Log(Success, "Added '%s' to your profile list.", profileName);
 
 }
