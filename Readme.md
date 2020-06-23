@@ -7,13 +7,27 @@ This tool aims to give you a simple way to create and store git "profiles" that 
 
 ## Usage
 
-Currently, not all intended features are implemented.
+*Currently, not all intended features are implemented.*
+
+Adding a profile to your list :
+
+```
+gitmanager add <nameOfProfile>
+```
+
+List avaliable profiles :
+
+```
+gitmanager list
+```
 
 Setting a profile on the current repo :
 
 ```
 gitmanager set <nameOfProfile>
 ```
+
+You can use the `-v` option to show verbose messages during execution.
 
 ## Building
 
