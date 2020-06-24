@@ -74,12 +74,12 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     int watchForCloseTag = 0;
     while(fgets(curLine, sizeof(curLine), currentFile)) {
 
-        char modLine[strlen(curLine)];
+        char modLine[strlen(curLine) + 1];
 
         // Trim leading and trailing whitespace.
         int j = 0;
         int front = 0;
-        for(int i = 0; curLine[i] != '\n'; i++) {
+        for(int i = 0; curLine[i] != '\n' && curLine[i] != '\0'; i++) {
             
             if(isspace(curLine[i]) && !front) {
                 continue;
