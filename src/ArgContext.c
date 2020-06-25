@@ -9,7 +9,7 @@
 ArgContext* ParseArguments(int argc, char* argv[]) {
 
     if(argc < 2) {
-        Log(Error, "gitmanager requires a command to be passed in.");
+        Log(Error, "gitmanager requires a command to be passed in.\nTry running 'gitmanager help'.");
         return NULL;
     }
 

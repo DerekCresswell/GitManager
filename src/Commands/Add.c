@@ -43,7 +43,8 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     }
 
     for(int i = 0; i < numProfiles; i++) {
-
+        //char temp[strlen(nameBuffer[i])];
+        //strcpy(temp, nameBuffer[i]);
         if(strcmp(validatedName, nameBuffer[i]) == 0) {
             Log(Error, "The name '%s' already exists.", validatedName);
             return 0;

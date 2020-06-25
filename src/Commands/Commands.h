@@ -3,6 +3,7 @@
 #define COMMANDS_COMMANDS_H
 
 #include "Add.h"
+#include "Help.h"
 #include "List.h"
 #include "Set.h"
 

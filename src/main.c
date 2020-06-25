@@ -105,9 +105,13 @@ int main(int argc, char* argv[]) {
 
         SetCommand(profileFile, argv[optind + 1], cwdPath);
 
+    } else if(strcmp(argv[optind], "help") == 0) {
+
+        HelpCommand();
+
     } else {
 
-        Log(Error, "'%s' is not a valid command.", argv[optind]);
+        Log(Error, "'%s' is not a valid command.\nTry running 'gitmanager help'.", argv[optind]);
         return 1;
 
     }
