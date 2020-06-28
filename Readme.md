@@ -44,3 +44,26 @@ mkdir build
 cd build
 cmake ..
 ```
+
+## Configuration
+
+This tool uses the [TOML](https://toml.io/) specification to store configuration. The configuration is per user and can be found at :
+
+* Linux, `~/.gitmanager`
+
+To declare a profile it should follow the syntax shown here :
+
+```
+[profileName]
+description = "Use this profile for XYZ"
+userName = "myUserName"
+userEmail = "myemail@github.com"
+```
+
+It is important to note that you must also put the name of the profile in an array called `profileNames`. This is used for discovery.
+
+```
+profileNames = [
+    "profileName",
+]
+```
