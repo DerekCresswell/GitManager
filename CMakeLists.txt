@@ -9,4 +9,7 @@ add_executable(${EXE_NAME} "")
 add_subdirectory(external)
 add_subdirectory(src)
 
-# install(TARGETS ${EXE_NAME} DESTINATION bin)
+install(TARGETS ${EXE_NAME}
+    CONFIGURATIONS Release
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+)

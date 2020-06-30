@@ -37,13 +37,21 @@ Make sure to download the submodules when cloning this repo.
 git clone --recursive https://github.com/DerekCresswell/GitManager.git
 ```
 
-This tool can be easily built with Cmake.
+This tool can be easily built with CMake.
 
 ```
 mkdir build
 cd build
 cmake ..
+cmake --build .
 ```
+
+Of course, you can use whatever build system you like.
+
+### Installing
+
+After building, run the command `cmake --install .` (replace `.` with whatever directory you built the project in). Use whatever build system you'd like.\
+If you recieve an error first try running the command as a root user such as running the command with `sudo` if you are on Unix.
 
 ## Configuration
 
