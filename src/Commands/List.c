@@ -21,17 +21,9 @@ int ListCommand(toml_table_t* configFile) {
 
     for(int i = 0; i < numProfiles; i++) {
 
-        // Temp, strip quotation marks
-        char nameTemp[strlen(nameBuffer[i])];
-        strcpy(nameTemp, nameBuffer[i]);
-        char* namePtr = nameTemp;
-        namePtr++;
-        namePtr[strlen(namePtr) - 1] = 0;
+        Log(Normal, "  %d : %s", i + 1, nameBuffer[i]);
 
-        Log(Normal, "  %d : %s", i + 1, namePtr);
-
-        // Description
-        toml_table_t* profileTable = toml_table_in(configFile, namePtr);
+        toml_table_t* profileTable = toml_table_in(configFile, nameBuffer[i]);
         if(profileTable == 0) {
             continue;
         }
