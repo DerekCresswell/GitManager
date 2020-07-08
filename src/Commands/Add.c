@@ -7,7 +7,16 @@
 
 #include "Add.h"
 
+#define MAX_PROFILE_NAME_SIZE 32
+
 void ValidateProfileName(char* name) {
+
+    int nameLength = strlen(name);
+    if(nameLength > MAX_PROFILE_NAME_SIZE) {
+        Log(Error, "Profile names must be less than %d. The given name is %d characters long.",
+            MAX_PROFILE_NAME_SIZE, nameLength);
+        return;
+    }
 
     int isValid = 1;
 
@@ -31,7 +40,7 @@ void ValidateProfileName(char* name) {
 
 int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToConfig) {
 
-    const char* nameBuffer[32];
+    const char* nameBuffer[MAX_PROFILE_NAME_SIZE];
     int numProfiles = LoadProfileNames(configFile, nameBuffer);
 
     char validatedName[strlen(profileName)];
