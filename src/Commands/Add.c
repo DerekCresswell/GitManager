@@ -7,8 +7,6 @@
 
 #include "Add.h"
 
-#define MAX_PROFILE_NAME_SIZE 32
-
 void ValidateProfileName(char* name) {
 
     int nameLength = strlen(name);

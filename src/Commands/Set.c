@@ -16,7 +16,7 @@ int SetCommand(toml_table_t* configFile, const char* profileName, const char* pa
 
     char buff[1024] = "git config --local user.name ";
     system(strcat(buff, toml_raw_in(profileTable, "userName")));
-    memset(buff, 0, 1024);
+    memset(buff, 0, sizeof(buff));
     strcpy(buff, "git config --local user.email ");
     system(strcat(buff, toml_raw_in(profileTable, "userEmail")));
 

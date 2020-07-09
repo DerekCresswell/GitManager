@@ -4,6 +4,8 @@
 
 #include <tomlc99/toml.h>
 
+#define MAX_PROFILE_NAME_SIZE 32
+
 struct Profile {
     char* profileName;
     char* description;

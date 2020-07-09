@@ -8,8 +8,7 @@
 
 int ListCommand(toml_table_t* configFile) {
 
-    // Want a better way to declare this size.
-    const char* nameBuffer[32];
+    const char* nameBuffer[MAX_PROFILE_NAME_SIZE];
     int numProfiles = LoadProfileNames(configFile, nameBuffer);
 
     if(numProfiles == 0) {
