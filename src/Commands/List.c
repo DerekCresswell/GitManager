@@ -27,7 +27,7 @@ int ListCommand(toml_table_t* configFile) {
             continue;
         }
 
-        const char* description = toml_raw_in(profileTable, "description");
+        toml_raw_t description = toml_raw_in(profileTable, "description");
         if(description == 0) {
             continue;
         }

@@ -24,7 +24,7 @@ int LoadProfileNames(toml_table_t* table, const char* buffer[]) {
 
     for(int i = 0; i < nElms; i++) {
 
-        const char* nameAct = toml_raw_at(profileNames, i);
+        toml_raw_t nameAct = toml_raw_at(profileNames, i);
         char* nameFormatted;
         if(toml_rtos(nameAct, &nameFormatted) == 0) {
             buffer[i] = nameFormatted;
