@@ -109,6 +109,15 @@ int main(int argc, char* argv[]) {
 
         HelpCommand();
 
+    } else if(strcmp(argv[optind], "remove") == 0) {
+
+        if(argv[optind + 1] == NULL) {
+            Log(Error, "The 'remove' command requires a profile name to be specified.");
+            return 1;
+        }
+
+        RemoveCommand(profileFile, argv[optind + 1], profilePath);
+
     } else {
 
         Log(Error, "'%s' is not a valid command.\nTry running 'gitmanager help'.", argv[optind]);

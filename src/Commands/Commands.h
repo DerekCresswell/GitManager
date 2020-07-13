@@ -5,6 +5,7 @@
 #include "Add.h"
 #include "Help.h"
 #include "List.h"
+#include "Remove.h"
 #include "Set.h"
 
 #endif

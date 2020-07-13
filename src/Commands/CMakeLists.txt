@@ -4,5 +4,6 @@ target_sources(${EXE_NAME}
         Add.c
         Help.c
         List.c
+        Remove.c
         Set.c
 )
