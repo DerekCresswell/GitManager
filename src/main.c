@@ -54,6 +54,17 @@ toml_table_t* LoadConfigurationFile(const char* pathToConfig) {
 
 }
 
+char* ProfileNameGiven(char* argv[], int optind, const char* commandName) {
+
+    if(argv[optind + 1] == NULL) {
+        Log(Error, "The '%s' command requires a profile name to be specified.", commandName);
+        return 0;
+    }
+
+    return argv[optind + 1];
+
+}
+
 /*
  * Usage : gitmanager <list|add|set> (options)
  */
@@ -89,21 +100,11 @@ int main(int argc, char* argv[]) {
 
     } else if(strcmp(argv[optind], "add") == 0) {
 
-        if(argv[optind + 1] == NULL) {
-            Log(Error, "The 'add' command requires a profile name to be specified.");
-            return 1;
-        }
-
-        AddCommand(profileFile, argv[optind + 1], profilePath);
+        AddCommand(profileFile, ProfileNameGiven(argv, optind, "add"), profilePath);
 
     } else if(strcmp(argv[optind], "set") == 0) {
 
-        if(argv[optind + 1] == NULL) {
-            Log(Error, "The 'set' command requires a profile to be specified.");
-            return 1;
-        }
-
-        SetCommand(profileFile, argv[optind + 1], cwdPath);
+        SetCommand(profileFile, ProfileNameGiven(argv, optind, "set"), cwdPath);
 
     } else if(strcmp(argv[optind], "help") == 0) {
 
@@ -111,12 +112,7 @@ int main(int argc, char* argv[]) {
 
     } else if(strcmp(argv[optind], "remove") == 0) {
 
-        if(argv[optind + 1] == NULL) {
-            Log(Error, "The 'remove' command requires a profile name to be specified.");
-            return 1;
-        }
-
-        RemoveCommand(profileFile, argv[optind + 1], profilePath);
+        RemoveCommand(profileFile, ProfileNameGiven(argv, optind, "remove"), profilePath);
 
     } else {
 
