@@ -7,12 +7,16 @@ This tool aims to give you a simple way to create and store git "profiles" that 
 
 ## Usage
 
-*Currently, not all intended features are implemented.*
-
 Adding a profile to your list :
 
 ```
 gitmanager add <nameOfProfile>
+```
+
+Remove a profile :
+
+```
+gitmanager remove <nameOfProfile>
 ```
 
 List avaliable profiles :
@@ -46,12 +50,12 @@ cmake ..
 cmake --build .
 ```
 
-Of course, you can use whatever build system you like.
+Of course, you can use whatever build system you like after generating with CMake.
 
 ### Installing
 
 After building, run the command `cmake --install .` (replace `.` with whatever directory you built the project in). Use whatever build system you'd like.\
-If you recieve an error first try running the command as a root user such as running the command with `sudo` if you are on Unix.
+If you recieve an error first try running the command as a root user such as running the command with `sudo` if you are on Linux systems.
 
 ## Configuration
 
