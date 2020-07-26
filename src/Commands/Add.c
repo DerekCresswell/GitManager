@@ -142,6 +142,22 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
         fputs("\"\n", newFile);
     }
 
+    {
+        Log(Normal, "Enter the profile description (blank for none) :");
+        char userIn[256];
+        fgets(userIn, sizeof(userIn), stdin);
+
+        if(strcmp(userIn, "\n") != 0) {
+
+            userIn[strcspn(userIn, "\n")] = 0;
+
+            fputs("description = \"", newFile);
+            fputs(userIn, newFile);
+            fputs("\"\n", newFile);
+
+        }
+    }
+
     fclose(newFile);
     Log(Verbose, "Temporary file '%s' written successfully.", newPathToConfig);
     Log(Verbose, "Copying '%s' to '%s'.", newPathToConfig, pathToConfig);
