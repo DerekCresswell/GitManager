@@ -15,7 +15,6 @@ int RemoveCommand(toml_table_t* configFile, const char* profileName, const char*
     int profileNameExists = 0;
     for(int i = 0; i < numProfiles; i++) {
 
-        printf("%s\n",nameBuffer[i]);
         if(strcmp(profileName, nameBuffer[i]) == 0) {
             profileNameExists = 1;
             break;
