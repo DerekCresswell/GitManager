@@ -121,7 +121,7 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     fputs("]\n", newFile);
 
     {
-        Log(Normal, "Enter the user name :");
+        printf("Enter the user name : ");
         char userIn[64];
         fgets(userIn, sizeof(userIn), stdin);
         userIn[strcspn(userIn, "\n")] = 0;
@@ -132,7 +132,7 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     }
 
     {
-        Log(Normal, "Enter the user email :");
+        printf("Enter the user email : ");
         char userIn[64];
         fgets(userIn, sizeof(userIn), stdin);
         userIn[strcspn(userIn, "\n")] = 0;
@@ -143,7 +143,7 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     }
 
     {
-        Log(Normal, "Enter the profile description (blank for none) :");
+        printf("Enter the profile description (blank for none) :");
         char userIn[256];
         fgets(userIn, sizeof(userIn), stdin);
 
