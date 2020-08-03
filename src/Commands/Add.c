@@ -1,7 +1,9 @@
 
 #include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
 
+#include <Input.h>
 #include <Logger.h>
 #include <Profile/Profile.h>
 
@@ -120,43 +122,32 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     fputs(profileName, newFile);
     fputs("]\n", newFile);
 
-    {
-        printf("Enter the user name : ");
-        char userIn[64];
-        fgets(userIn, sizeof(userIn), stdin);
-        userIn[strcspn(userIn, "\n")] = 0;
+    char* input = GetUserString("Enter the user name", 64);
 
-        fputs("userName = \"", newFile);
-        fputs(userIn, newFile);
+    fputs("userName = \"", newFile);
+    fputs(input, newFile);
+    fputs("\"\n", newFile);
+
+    free(input);
+
+    input = GetUserString("Enter the user email", 64);
+
+    fputs("userEmail = \"", newFile);
+    fputs(input, newFile);
+    fputs("\"\n", newFile);
+
+    free(input);
+
+    input = GetUserString("Enter the profile description (blank for none)", 256);
+    if(strlen(input) != 0) {
+
+        fputs("description = \"", newFile);
+        fputs(input, newFile);
         fputs("\"\n", newFile);
+
     }
 
-    {
-        printf("Enter the user email : ");
-        char userIn[64];
-        fgets(userIn, sizeof(userIn), stdin);
-        userIn[strcspn(userIn, "\n")] = 0;
-
-        fputs("userEmail = \"", newFile);
-        fputs(userIn, newFile);
-        fputs("\"\n", newFile);
-    }
-
-    {
-        printf("Enter the profile description (blank for none) :");
-        char userIn[256];
-        fgets(userIn, sizeof(userIn), stdin);
-
-        if(strcmp(userIn, "\n") != 0) {
-
-            userIn[strcspn(userIn, "\n")] = 0;
-
-            fputs("description = \"", newFile);
-            fputs(userIn, newFile);
-            fputs("\"\n", newFile);
-
-        }
-    }
+    free(input);
 
     fclose(newFile);
     Log(Verbose, "Temporary file '%s' written successfully.", newPathToConfig);

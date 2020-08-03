@@ -3,6 +3,7 @@ target_sources(${EXE_NAME}
     PRIVATE
         main.c
         ArgContext.c
+        Input.c
         Logger.c
 )
 
