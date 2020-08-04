@@ -38,6 +38,15 @@ void ValidateProfileName(char* name) {
 
 }
 
+void AddKeyToFile(FILE* fp, const char* key, const char* value) {
+
+    fputs(key, fp);
+    fputs(" = \"", fp);
+    fputs(value, fp);
+    fputs("\"\n", fp);
+
+}
+
 int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToConfig) {
 
     const char* nameBuffer[MAX_PROFILE_NAME_SIZE];
@@ -123,30 +132,17 @@ int AddCommand(toml_table_t* configFile, char* profileName, const char* pathToCo
     fputs("]\n", newFile);
 
     char* input = GetUserString("Enter the user name", 64);
-
-    fputs("userName = \"", newFile);
-    fputs(input, newFile);
-    fputs("\"\n", newFile);
-
+    AddKeyToFile(newFile, "userName", input);
     free(input);
 
     input = GetUserString("Enter the user email", 64);
-
-    fputs("userEmail = \"", newFile);
-    fputs(input, newFile);
-    fputs("\"\n", newFile);
-
+    AddKeyToFile(newFile, "userEmail", input);
     free(input);
 
     input = GetUserString("Enter the profile description (blank for none)", 256);
     if(strlen(input) != 0) {
-
-        fputs("description = \"", newFile);
-        fputs(input, newFile);
-        fputs("\"\n", newFile);
-
+        AddKeyToFile(newFile, "description", input);
     }
-
     free(input);
 
     fclose(newFile);
